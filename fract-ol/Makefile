@@ -6,7 +6,7 @@
 #    By: myuriko <myuriko@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/06 19:38:04 by myuriko           #+#    #+#              #
-#    Updated: 2022/03/06 19:38:05 by myuriko          ###   ########.fr        #
+#    Updated: 2022/09/08 20:53:17 by myuriko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,10 @@ CFLAGS = -Werror -Wextra -Wall
 OBJECTS = $(FILES:.c=.o)
 NAME = fractol
 HEADER = include
-CC = cc
+CC = gcc
 RM = rm -f
 UNAME = $(shell uname -s)
-XFLAGS = -I /usr/local/include -lmlx -framework OpenGL -framework AppKit
+XFLAGS = -I /usr/local/include -Imlx -framework OpenGL -framework AppKit
 
 
 all: $(NAME)
@@ -29,7 +29,7 @@ $(NAME): $(OBJECTS)
 	$(CC) $^ -o $@ $(XFLAGS)
 
 $(SRC)/%.o: $(SRC)/%.c $(HEADER)/fractol.h
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(HEADER)
+	$(CC) $(CFLAGS) -I$(HEADER) -c $< -o $@ 
 
 bonus: all
 
