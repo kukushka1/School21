@@ -1,0 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   do_redirects.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: myuriko <myuriko@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/23 20:52:30 by myuriko           #+#    #+#             */
+/*   Updated: 2022/08/23 20:52:31 by myuriko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+
+#include "libft.h"
+#include "bool.h"
+#include "enums.h"
+#include "mesages.h"
+#include "error_msgs.h"
+#include "actions_handler.h"
+#include "minishell.h"
+
+static inline void	do_input_redirect(t_action action, t_redirect *redirect)
+{
+	int	fd;
+
+	if (redirect->target == NULL)
+		dup2(action.pipe_in, STDIN_FILENO);
+	else if (redirect->target)
+	{
+		fd = get_redirect_fd(*redirect);
+		if (fd > 0)
+		{
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+	}
+}
+
+static inline void	do_read_input_redirect(
+	t_action action, t_redirect *redirect)
+{
+	if (redirect->target == NULL)
+		return ;
+	dup2(action.pipe_read_input[out], STDIN_FILENO);
+	close(action.pipe_read_input[in]);
+	close(action.pipe_read_input[out]);
+}
+
+static inline void	do_output_redirect(t_action action, t_redirect *redirect)
+{
+	int	fd;
+
+	if (redirect->target == NULL)
+		dup2(action.pipe_out, STDOUT_FILENO);
+	else
+	{
+		fd = get_redirect_fd(*redirect);
+		if (fd > 0)
+		{
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+	}
+}
+
+inline void	do_redirects(t_action action)
+{
+	if (action.redirect_in.type == input)
+		do_input_redirect(action, &action.redirect_in);
+	if (action.redirect_in.type == read_input)
+		do_read_input_redirect(action, &action.redirect_in);
+	if (action.redirect_out.type == output
+		|| action.redirect_out.type == output_append)
+		do_output_redirect(action, &action.redirect_out);
+}

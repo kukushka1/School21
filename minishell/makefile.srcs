@@ -1,0 +1,58 @@
+# MAIN
+MAIN	= main.c
+# end MAIN
+
+# INIT
+INIT_MINISHELL_DIR	= init_minishell
+INIT_MINISHELL	= $(addprefix ${INIT_MINISHELL_DIR}/, \
+init_minishell.c						clean_up.c)
+# end INIT
+
+# BUILTINS
+BUILTINS_DIR	= builtins
+BUILTINS	= $(addprefix ${BUILTINS_DIR}/, \
+env/get_env.c		env/set_env.c		env/unset_env.c\
+do_pwd.c			do_exit.c			do_echo.c\
+do_cd.c				do_unset.c			do_export.c\
+do_env.c)
+
+# end BUILTINS
+
+# INPUT_HANDLER
+INPUT_HANDLER_DIR	= input_handler
+INPUT_HANDLER	= $(addprefix ${INPUT_HANDLER_DIR}/, \
+input_loop.c							input_handler.c\
+parser/parse_cmd.c						parser/parse_cmd_do_parse.c\
+parser/parse_cmd_escaped.c				parser/parse_cmd_quotes.c\
+parser/parse_cmd_expand_env.c			parser/parse_cmd_do_asterisk.c\
+parser/parse_cmd_template.c				parser/parse_cmd_expand_template.c\
+parser/parse_cmd_buf.c					parser/parse_cmd_get_d_name.c\
+parser/parse_cmd_do_select_template.c	parser/parse_cmd_pattern_matched.c\
+parser/parse_cmd_pattern_matched_do.c	parser/parse_cmd_checkers.c\
+parser/parse_cmd_has_opened_quotes.c\
+logic/logic_parenth_finder.c			logic/logic_trim_parenth.c\
+logic/logic_node_handler.c)
+# end INPUT_HANDLER
+
+# ACTIONS_HANDLER
+ACTIONS_HANDLER_DIR	= actions_handler
+ACTIONS_HANDLER	= $(addprefix ${ACTIONS_HANDLER_DIR}/, \
+do_actions_build.c						do_actions_build_items.c\
+do_actions_build_set.c				do_actions.c\
+parse_redirects.c						parse_redirects_do_readinput.c\
+do_validate_action.c					do_action_run.c\
+get_redirect_fd.c						do_redirects.c\
+do_redirects_builtin.c					child_exit_handler.c)
+# end ACTIONS_HANDLER
+
+# SIGNALS
+SIGNALS_DIR	= signal_handler
+SIGNALS		= $(addprefix ${SIGNALS_DIR}/, \
+signals.c								echo_ctl.c)
+# end SIGNALS
+
+# SRCS
+SRCS		=\
+${MAIN} ${INIT_MINISHELL} ${BUILTINS} ${INPUT_HANDLER} ${ACTIONS_HANDLER}\
+${SIGNALS}
+# end SRCS
