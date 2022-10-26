@@ -1,0 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ClapTrap.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: myuriko <myuriko@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/23 18:22:07 by myuriko           #+#    #+#             */
+/*   Updated: 2022/10/23 18:22:08 by myuriko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef CLAPTRAP_HPP
+# define CLAPTRAP_HPP
+
+# include <iostream>
+
+class ClapTrap {
+private:
+    std::string     name;
+    unsigned int    points_hit;
+    unsigned int    points_energy;
+    unsigned int    damage;
+
+public:
+    ClapTrap();
+    ClapTrap(std::string name);
+    ClapTrap(const ClapTrap &src);
+    ClapTrap& operator=(const ClapTrap &src);
+    ~ClapTrap();
+    void attack(const std::string& target);
+    void takeDamage(unsigned int amount);
+    void beRepaired(unsigned int amount);
+    std::string getName() const;
+    void setDamage(unsigned int damage);
+    unsigned int getHit() const;
+    unsigned int getEnergy() const;
+    unsigned int getDamage() const;
+};
+#endif
